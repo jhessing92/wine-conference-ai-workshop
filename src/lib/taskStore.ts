@@ -1549,30 +1549,41 @@ export async function downloadReport(): Promise<void> {
         }
         
         // Event Marketing - handle multiline content properly
+        // Helper to sanitize text for PDF (remove emojis and non-printable chars)
+        const sanitizeForPdf = (text: string): string => {
+          return text
+            // Remove all emojis and symbols (comprehensive unicode ranges)
+            .replace(/[\u{1F300}-\u{1FAFF}]/gu, '')
+            .replace(/[\u{2600}-\u{26FF}]/gu, '')  // Misc symbols
+            .replace(/[\u{2700}-\u{27BF}]/gu, '')  // Dingbats
+            .replace(/[\u{FE00}-\u{FE0F}]/gu, '')  // Variation selectors
+            .replace(/[\u{200B}-\u{200D}]/gu, '')  // Zero-width chars
+            .replace(/[\u{2000}-\u{206F}]/gu, ' ') // General punctuation (replace with space)
+            .replace(/\n+/g, ' ')                   // Newlines to spaces
+            .replace(/\s+/g, ' ')                   // Collapse multiple spaces
+            .trim();
+        };
+        
         if (content.instagramShort) {
-          const igShort = String(content.instagramShort).replace(/[\u{1F300}-\u{1F9FF}]/gu, ''); // Remove emojis
-          formatField('Instagram (Short)', igShort);
+          formatField('Instagram (Short)', sanitizeForPdf(String(content.instagramShort)));
         }
         if (content.instagramLong) {
-          const igLong = String(content.instagramLong)
-            .replace(/[\u{1F300}-\u{1F9FF}]/gu, '') // Remove emojis
-            .replace(/\n+/g, ' '); // Replace newlines with spaces for cleaner PDF
-          formatField('Instagram (Long)', igLong);
+          formatField('Instagram (Long)', sanitizeForPdf(String(content.instagramLong)));
         }
         if (content.emailInvite) {
           // Parse emailInvite which may contain "Subject: X" followed by body
           const emailText = String(content.emailInvite);
           const subjectMatch = emailText.match(/^Subject:\s*(.+?)(?:\n|$)/i);
           if (subjectMatch) {
-            formatField('Email Subject', subjectMatch[1].trim());
-            const bodyText = emailText.replace(/^Subject:\s*.+?\n/i, '').trim().replace(/\n+/g, ' ');
-            formatField('Email Body', bodyText);
+            formatField('Email Subject', sanitizeForPdf(subjectMatch[1]));
+            const bodyText = emailText.replace(/^Subject:\s*.+?\n/i, '').trim();
+            formatField('Email Body', sanitizeForPdf(bodyText));
           } else {
-            formatField('Email Invite', emailText.replace(/\n+/g, ' '));
+            formatField('Email Invite', sanitizeForPdf(emailText));
           }
         }
         if (content.staffScript) {
-          formatField('Staff Script', String(content.staffScript).replace(/\n+/g, ' '));
+          formatField('Staff Script', sanitizeForPdf(String(content.staffScript)));
         }
         
         // Numbers to Decisions
