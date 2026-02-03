@@ -214,6 +214,44 @@ export function loadMockDataAndDownload(): void {
           'If guests mention a special occasion, let them know about our private tasting room option'
         ]
       }
+    },
+    {
+      id: crypto.randomUUID(),
+      category: 'Lightning Lab',
+      title: 'Social Media Calendar',
+      exerciseType: 'lightning-lab',
+      createdAt: new Date().toISOString(),
+      content: {
+        weeklyPlan: [
+          { day: 'Monday', postType: 'Behind the scenes', topic: 'Vineyard work this week', caption: 'Monday motivation from the vines! Our team is doing canopy management this week as we prepare for harvest season. #WillowCreekVineyards #GeorgiaWine' },
+          { day: 'Wednesday', postType: 'Wine education', topic: 'Featured grape variety', caption: 'Did you know? Our Petit Manseng gets its unique honeyed character from the mountain terroir. Stop by this weekend to taste the difference elevation makes. #WineEducation' },
+          { day: 'Friday', postType: 'Weekend invitation', topic: 'What to expect this weekend', caption: 'Your weekend plans just got better! Join us Saturday & Sunday for tastings, live music, and mountain views. See you soon! #WeekendVibes #WillowCreek' },
+          { day: 'Saturday', postType: 'Real-time/Stories', topic: 'Live from the tasting room', caption: 'Happening now at Willow Creek! Perfect weather, great wine, happy guests. Come be part of the moment!' }
+        ],
+        hashtagSets: {
+          local: ['#GeorgiaWine', '#Dahlonega', '#NorthGeorgia', '#ExploreGeorgia'],
+          wine: ['#WineTasting', '#WineLovers', '#WineTime', '#WineCountry'],
+          lifestyle: ['#WeekendVibes', '#DateNight', '#SupportLocal', '#MountainLife']
+        },
+        contentTips: [
+          'Post between 6-8pm on weekdays for best engagement',
+          'Stories perform well for real-time content; save polished posts for the feed',
+          'Always respond to comments within 24 hours'
+        ]
+      }
+    },
+    {
+      id: crypto.randomUUID(),
+      category: 'Lightning Lab',
+      title: 'Thank You Email',
+      exerciseType: 'lightning-lab',
+      createdAt: new Date().toISOString(),
+      content: {
+        subject: 'Thanks for visiting Willow Creek!',
+        body: 'Hi there,\n\nThank you for spending time with us at Willow Creek Vineyards yesterday. We hope you enjoyed your tasting and found some new favorites to take home.\n\nIf you have any questions about the wines you tried or want recommendations for food pairings, just reply to this email - we love to help.\n\nWe\'d love to see you again soon. Our next live music event is coming up, and we think you\'d enjoy it.\n\nCheers,\nThe Willow Creek Team\n\nP.S. If you had a great time, we\'d be grateful for a review on Google or Yelp. It really helps other wine lovers find us!',
+        clubMemberVersion: 'Welcome to the Willow Creek family! Your 20% member discount is now active. Your first shipment arrives next month.',
+        followUpTiming: 'Send within 24 hours of visit for best engagement'
+      }
     }
   ];
 
@@ -1520,7 +1558,352 @@ export async function downloadReport(): Promise<void> {
         if (content.mainInsight) formatField('Main Insight', String(content.mainInsight));
         if (content.actionThisWeek) formatField('Action This Week', String(content.actionThisWeek));
         if (content.riskToWatch) formatField('Risk to Watch', String(content.riskToWatch));
-        if (content.summary) formatField('Summary', String(content.summary));
+        if (content.summary && !content.costBreakdown) formatField('Summary', String(content.summary));
+        
+        // Lightning Lab - FAQs
+        if (content.faqs && Array.isArray(content.faqs)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Frequently Asked Questions:', margin, yPos);
+          yPos += 5;
+          doc.setFont('helvetica', 'normal');
+          (content.faqs as Array<{ question: string; answer: string }>).forEach((faq, idx) => {
+            checkNewPage(15);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(...tealColor);
+            const qLines = doc.splitTextToSize(`Q${idx + 1}: ${faq.question}`, contentWidth - 10);
+            doc.text(qLines, margin + 2, yPos);
+            yPos += (qLines.length * 4) + 2;
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(60, 60, 60);
+            const aLines = doc.splitTextToSize(`A: ${faq.answer}`, contentWidth - 10);
+            doc.text(aLines, margin + 2, yPos);
+            yPos += (aLines.length * 4) + 4;
+          });
+          yPos += 2;
+        }
+        
+        // Lightning Lab - Social Calendar
+        if (content.weeklyPlan && Array.isArray(content.weeklyPlan)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Weekly Social Media Plan:', margin, yPos);
+          yPos += 5;
+          doc.setFont('helvetica', 'normal');
+          (content.weeklyPlan as Array<{ day: string; postType: string; topic: string; caption: string }>).forEach((day) => {
+            checkNewPage(20);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(...tealColor);
+            doc.text(`${day.day} - ${day.postType}`, margin + 2, yPos);
+            yPos += 4;
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(60, 60, 60);
+            doc.text(`Topic: ${day.topic}`, margin + 4, yPos);
+            yPos += 4;
+            const captionLines = doc.splitTextToSize(`Caption: ${day.caption}`, contentWidth - 15);
+            doc.text(captionLines, margin + 4, yPos);
+            yPos += (captionLines.length * 4) + 4;
+          });
+          yPos += 2;
+        }
+        if (content.hashtagSets && typeof content.hashtagSets === 'object') {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Hashtag Sets:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          const sets = content.hashtagSets as Record<string, string[]>;
+          Object.entries(sets).forEach(([category, tags]) => {
+            checkNewPage(8);
+            const tagLine = doc.splitTextToSize(`${category}: ${tags.join(' ')}`, contentWidth - 10);
+            doc.text(tagLine, margin + 2, yPos);
+            yPos += (tagLine.length * 4) + 1;
+          });
+          yPos += 2;
+        }
+        if (content.contentTips && Array.isArray(content.contentTips)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Content Tips:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          (content.contentTips as string[]).forEach((tip) => {
+            checkNewPage(8);
+            const tipLines = doc.splitTextToSize('- ' + tip, contentWidth - 10);
+            doc.text(tipLines, margin + 2, yPos);
+            yPos += (tipLines.length * 4) + 1;
+          });
+          yPos += 2;
+        }
+        
+        // Lightning Lab - Thank You Email
+        if (content.subject && content.body) {
+          formatField('Subject', String(content.subject));
+          formatField('Email Body', String(content.body));
+        }
+        if (content.clubMemberVersion) {
+          formatField('Club Member Version', String(content.clubMemberVersion));
+        }
+        if (content.followUpTiming) {
+          formatField('Follow-up Timing', String(content.followUpTiming));
+        }
+        
+        // Lightning Lab - Staff Training
+        if (content.topicOverview) formatField('Topic Overview', String(content.topicOverview));
+        if (content.keyPoints && Array.isArray(content.keyPoints)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Key Points:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          (content.keyPoints as string[]).forEach((point) => {
+            checkNewPage(8);
+            const pointLines = doc.splitTextToSize('- ' + point, contentWidth - 10);
+            doc.text(pointLines, margin + 2, yPos);
+            yPos += (pointLines.length * 4) + 1;
+          });
+          yPos += 2;
+        }
+        if (content.practiceScenario) formatField('Practice Scenario', String(content.practiceScenario));
+        if (content.quickReference) formatField('Quick Reference', String(content.quickReference));
+        
+        // Lightning Lab - Labor Schedule
+        if (content.recommendedSchedule && Array.isArray(content.recommendedSchedule)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Recommended Schedule:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          (content.recommendedSchedule as Array<{ day: string; staff: number; notes: string }>).forEach((day) => {
+            checkNewPage(6);
+            doc.text(`${day.day}: ${day.staff} staff - ${day.notes}`, margin + 2, yPos);
+            yPos += 4;
+          });
+          yPos += 2;
+        }
+        if (content.peakTimes && Array.isArray(content.peakTimes)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Peak Times:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          (content.peakTimes as string[]).forEach((time) => {
+            doc.text('- ' + time, margin + 2, yPos);
+            yPos += 4;
+          });
+          yPos += 2;
+        }
+        if (content.considerations && Array.isArray(content.considerations)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Considerations:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          (content.considerations as string[]).forEach((c) => {
+            checkNewPage(8);
+            const cLines = doc.splitTextToSize('- ' + c, contentWidth - 10);
+            doc.text(cLines, margin + 2, yPos);
+            yPos += (cLines.length * 4) + 1;
+          });
+          yPos += 2;
+        }
+        
+        // Lightning Lab - Wine Club Campaign
+        if (content.emailSubject) formatField('Email Subject', String(content.emailSubject));
+        if (content.emailBody) formatField('Email Body', String(content.emailBody));
+        if (content.benefits && Array.isArray(content.benefits)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Benefits:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          (content.benefits as string[]).forEach((b) => {
+            checkNewPage(8);
+            const bLines = doc.splitTextToSize('- ' + b, contentWidth - 10);
+            doc.text(bLines, margin + 2, yPos);
+            yPos += (bLines.length * 4) + 1;
+          });
+          yPos += 2;
+        }
+        if (content.cta) formatField('Call to Action', String(content.cta));
+        
+        // Lightning Lab - Customer SOP
+        if (content.title && content.purpose) {
+          formatField('SOP Title', String(content.title));
+          formatField('Purpose', String(content.purpose));
+        }
+        if (content.steps && Array.isArray(content.steps)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Steps:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          (content.steps as Array<{ step: number; action: string; note?: string }>).forEach((s) => {
+            checkNewPage(10);
+            doc.text(`${s.step}. ${s.action}`, margin + 2, yPos);
+            yPos += 4;
+            if (s.note) {
+              doc.setTextColor(100, 100, 100);
+              doc.text(`   Note: ${s.note}`, margin + 4, yPos);
+              doc.setTextColor(60, 60, 60);
+              yPos += 4;
+            }
+          });
+          yPos += 2;
+        }
+        if (content.commonMistakes && Array.isArray(content.commonMistakes)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Common Mistakes to Avoid:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          (content.commonMistakes as string[]).forEach((m) => {
+            checkNewPage(8);
+            const mLines = doc.splitTextToSize('- ' + m, contentWidth - 10);
+            doc.text(mLines, margin + 2, yPos);
+            yPos += (mLines.length * 4) + 1;
+          });
+          yPos += 2;
+        }
+        
+        // Lightning Lab - Job Description
+        if (content.title && content.summary && !content.purpose) {
+          formatField('Position', String(content.title));
+          formatField('Summary', String(content.summary));
+        }
+        if (content.responsibilities && Array.isArray(content.responsibilities)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Responsibilities:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          (content.responsibilities as string[]).forEach((r) => {
+            checkNewPage(8);
+            const rLines = doc.splitTextToSize('- ' + r, contentWidth - 10);
+            doc.text(rLines, margin + 2, yPos);
+            yPos += (rLines.length * 4) + 1;
+          });
+          yPos += 2;
+        }
+        if (content.qualifications && Array.isArray(content.qualifications)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Qualifications:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          (content.qualifications as string[]).forEach((q) => {
+            checkNewPage(8);
+            const qLines = doc.splitTextToSize('- ' + q, contentWidth - 10);
+            doc.text(qLines, margin + 2, yPos);
+            yPos += (qLines.length * 4) + 1;
+          });
+          yPos += 2;
+        }
+        
+        // Lightning Lab - COGS Model
+        if (content.costBreakdown && Array.isArray(content.costBreakdown)) {
+          if (content.summary) formatField('Summary', String(content.summary));
+          doc.setFont('helvetica', 'bold');
+          doc.text('Cost Breakdown:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          (content.costBreakdown as Array<{ category: string; percentage: string; note: string }>).forEach((c) => {
+            checkNewPage(6);
+            doc.text(`${c.category}: ${c.percentage} - ${c.note}`, margin + 2, yPos);
+            yPos += 4;
+          });
+          yPos += 2;
+        }
+        if (content.marginAnalysis) formatField('Margin Analysis', String(content.marginAnalysis));
+        if (content.recommendations && Array.isArray(content.recommendations)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Recommendations:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          (content.recommendations as string[]).forEach((r) => {
+            checkNewPage(8);
+            const rLines = doc.splitTextToSize('- ' + r, contentWidth - 10);
+            doc.text(rLines, margin + 2, yPos);
+            yPos += (rLines.length * 4) + 1;
+          });
+          yPos += 2;
+        }
+        
+        // Lightning Lab - Compliance Checklist
+        if (content.checklist && Array.isArray(content.checklist)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Compliance Checklist:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          (content.checklist as Array<{ item: string; status: string }>).forEach((c) => {
+            checkNewPage(6);
+            doc.text(`[ ] ${c.item} (${c.status})`, margin + 2, yPos);
+            yPos += 4;
+          });
+          yPos += 2;
+        }
+        if (content.questionsForAttorney && Array.isArray(content.questionsForAttorney)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Questions for Your Attorney:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          (content.questionsForAttorney as string[]).forEach((q, i) => {
+            checkNewPage(8);
+            const qLines = doc.splitTextToSize(`${i + 1}. ${q}`, contentWidth - 10);
+            doc.text(qLines, margin + 2, yPos);
+            yPos += (qLines.length * 4) + 1;
+          });
+          yPos += 2;
+        }
+        if (content.resourceLinks && Array.isArray(content.resourceLinks)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Resources:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          doc.text((content.resourceLinks as string[]).join(', '), margin + 2, yPos);
+          yPos += 5;
+        }
+        
+        // Lightning Lab - Vine Triage
+        if (content.possibleIssues && Array.isArray(content.possibleIssues)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Possible Issues:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          (content.possibleIssues as string[]).forEach((issue) => {
+            checkNewPage(8);
+            const iLines = doc.splitTextToSize('- ' + issue, contentWidth - 10);
+            doc.text(iLines, margin + 2, yPos);
+            yPos += (iLines.length * 4) + 1;
+          });
+          yPos += 2;
+        }
+        if (content.whatToCheckNext && Array.isArray(content.whatToCheckNext)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('What to Check Next:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          (content.whatToCheckNext as string[]).forEach((check) => {
+            checkNewPage(8);
+            const cLines = doc.splitTextToSize('- ' + check, contentWidth - 10);
+            doc.text(cLines, margin + 2, yPos);
+            yPos += (cLines.length * 4) + 1;
+          });
+          yPos += 2;
+        }
+        if (content.whoToContact && Array.isArray(content.whoToContact)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Who to Contact:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          (content.whoToContact as string[]).forEach((contact) => {
+            doc.text('- ' + contact, margin + 2, yPos);
+            yPos += 4;
+          });
+          yPos += 2;
+        }
+        
+        // Staff tips (used by multiple Lightning Lab tools)
+        if (content.staffTips && Array.isArray(content.staffTips)) {
+          doc.setFont('helvetica', 'bold');
+          doc.text('Staff Tips:', margin, yPos);
+          yPos += 4;
+          doc.setFont('helvetica', 'normal');
+          (content.staffTips as string[]).forEach((tip) => {
+            checkNewPage(8);
+            const tipLines = doc.splitTextToSize('- ' + tip, contentWidth - 10);
+            doc.text(tipLines, margin + 2, yPos);
+            yPos += (tipLines.length * 4) + 1;
+          });
+          yPos += 2;
+        }
         
         // Disclaimer if present
         if (content.disclaimer) {
