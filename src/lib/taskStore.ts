@@ -67,6 +67,167 @@ export function clearLocalSavedItems(): void {
   localStorage.removeItem(STORAGE_KEY);
 }
 
+// Load mock data for testing PDF generation
+export function loadMockDataAndDownload(): void {
+  // Mock winery context
+  const mockContext: WineryContext = {
+    wineryName: 'Willow Creek Vineyards',
+    location: 'Dahlonega, Georgia',
+    yearFounded: '2015',
+    description: 'A family-owned boutique winery nestled in the North Georgia mountains, specializing in estate-grown wines with a focus on sustainability and authentic Georgia terroir.',
+    wines: ['Reserve Chardonnay', 'Mountain Red Blend', 'Sweet Muscadine', 'Estate Rosé'],
+    grapeVarieties: ['Chardonnay', 'Muscadine', 'Petit Manseng', 'Cabernet Franc'],
+    wineStyles: ['Dry', 'Semi-sweet', 'Sweet']
+  };
+  saveWineryContext(mockContext);
+
+  // Mock saved items from various exercises
+  const mockItems: SavedItem[] = [
+    {
+      id: crypto.randomUUID(),
+      category: 'Tasting Notes',
+      title: 'Reserve Chardonnay Notes',
+      exerciseType: 'tasting-notes',
+      createdAt: new Date().toISOString(),
+      content: {
+        websiteNote: 'Our Reserve Chardonnay opens with bright notes of green apple and Meyer lemon, layered with subtle hints of vanilla and toasted oak from careful barrel aging. On the palate, expect a creamy texture balanced by crisp acidity, leading to a long, elegant finish. Estate-grown in our North Georgia vineyard at 1,800 feet elevation.',
+        menuNote: 'Crisp and elegant with green apple, citrus, and a touch of oak. Perfect with seafood or creamy pasta dishes.',
+        staffBullets: [
+          'Barrel-aged 8 months in French oak - gives it that creamy texture',
+          'Pairs beautifully with our cheese board or the smoked trout',
+          'Our most awarded wine - 3 gold medals at the Georgia Wine Competition'
+        ]
+      }
+    },
+    {
+      id: crypto.randomUUID(),
+      category: 'Owner',
+      title: 'Weekly Sales Analysis',
+      exerciseType: 'owner-email',
+      createdAt: new Date().toISOString(),
+      content: {
+        topWines: [
+          { name: 'Sweet Muscadine', revenue: '$28,500', insight: 'Tourist favorite - drives 40% of weekend traffic' },
+          { name: 'Estate Rosé', revenue: '$18,200', insight: 'Strong seasonal performer, up 25% from last month' },
+          { name: 'Reserve Chardonnay', revenue: '$15,800', insight: 'Premium positioning working well' }
+        ],
+        bottomWines: [
+          { name: 'Cabernet Franc', revenue: '$6,400', insight: 'Consider food pairing promotions to increase trial' },
+          { name: 'Petit Manseng', revenue: '$5,100', insight: 'Staff may need more training on how to describe it' }
+        ],
+        whatThisMeans: [
+          'Sweet wines drive traffic - lean into this for tourist season marketing',
+          'Premium dry wines need better positioning and dedicated staff education',
+          'Rosé momentum suggests expanding spring/summer inventory by 20%'
+        ],
+        decisionsThisWeek: [
+          { action: 'Restock Muscadine before Memorial Day weekend - we\'ll run out at current pace', category: 'inventory' },
+          { action: 'Create a Cab Franc food pairing flight with cheese to increase trial', category: 'promo' },
+          { action: 'Schedule 15-min staff huddle on Petit Manseng talking points', category: 'training' }
+        ]
+      }
+    },
+    {
+      id: crypto.randomUUID(),
+      category: 'Vineyard',
+      title: '7-Day Planning Checklist',
+      exerciseType: 'vineyard-checklist',
+      createdAt: new Date().toISOString(),
+      content: {
+        weeklyChecklist: [
+          { day: 'Monday', tasks: ['Morning walk-through for pest pressure', 'Check irrigation lines in Block A', 'Document vine growth stage'] },
+          { day: 'Tuesday', tasks: ['Canopy management - leaf pulling east side', 'Record growth measurements for vineyard log'] },
+          { day: 'Wednesday', tasks: ['Equipment maintenance - check sprayer', 'Review updated weather forecast', 'Order supplies if needed'] },
+          { day: 'Thursday', tasks: ['Rain prep if forecast holds', 'Check drainage paths are clear', 'Move any sensitive equipment under cover'] },
+          { day: 'Friday', tasks: ['Leaf pulling for sun exposure on Chardonnay block', 'Team planning meeting for weekend tasks'] },
+          { day: 'Saturday', tasks: ['Light monitoring only', 'Document any issues found during walk-through'] },
+          { day: 'Sunday', tasks: ['Rest day - emergency response only'] }
+        ],
+        decisionTree: [
+          { condition: 'If rain exceeds 1 inch', action: 'Check for standing water and scout for fungal pressure next morning' },
+          { condition: 'If temps drop below 60°F at night', action: 'Delay any spray applications until conditions improve' },
+          { condition: 'If humidity stays above 80% for 3+ days', action: 'Increase canopy monitoring frequency and consider preventive fungicide' }
+        ],
+        questionsForExpert: [
+          'Given current veraison timing, what harvest date range should we plan for?',
+          'Are there any specific nutrient deficiencies I should test for at this stage?',
+          'Should we adjust our spray schedule given the extended humid forecast?'
+        ],
+        disclaimer: 'Planning support only. Validate all decisions with your viticulture expert and local extension office.'
+      }
+    },
+    {
+      id: crypto.randomUUID(),
+      category: 'Tasting Room',
+      title: 'Staff Scripts & Training',
+      exerciseType: 'tasting-room-promo',
+      createdAt: new Date().toISOString(),
+      content: {
+        scripts: {
+          firstTime: 'Welcome to Willow Creek! Is this your first visit with us? Wonderful! Let me tell you a little about what makes us special. We\'re a family-owned winery - everything you\'ll taste today was grown right here on our estate at 1,800 feet elevation. I\'ll walk you through about five wines - we\'ll start light and work our way to the fuller reds. Feel free to ask any questions along the way. Ready to get started?',
+          browsing: 'Take your time and enjoy! I\'m here if you have any questions. If you\'d like, I can point out a couple of our most popular bottles, or if you tell me what you usually enjoy, I can make a recommendation. No pressure at all - just here to help when you need me.',
+          clubCandidate: 'I noticed you really enjoyed that wine! That\'s actually one of our club exclusive releases - we only made 200 cases this year. Our club members get first access to wines like that, plus 20% off everything and invites to our member-only harvest events. Would you like me to tell you more about how it works? No pressure, but I\'m happy to answer any questions.'
+        },
+        cheatSheet: [
+          'Always greet within 30 seconds of arrival - first impressions matter',
+          'Ask about their wine experience level before starting the tasting',
+          'Mention one food pairing suggestion for each wine',
+          'Watch for buying signals - lingering on a wine, asking about price, returning for another taste',
+          'Never assume they want to buy - let them come to you'
+        ],
+        objectionResponses: [
+          { objection: 'I don\'t drink much wine', response: 'That\'s perfectly fine! Many of our guests are just starting their wine journey. We have some lighter, sweeter options that are very approachable - would you like to start there?' },
+          { objection: 'Your wines are too expensive', response: 'I understand. Keep in mind our wines are small-batch and grown right here on our estate. If you\'re looking for value, our house blend is a great everyday option at $18.' },
+          { objection: 'I\'m not interested in the club', response: 'No problem at all! If you change your mind, you can always sign up online later. In the meantime, can I help you pick a bottle or two to take home today?' }
+        ]
+      }
+    },
+    {
+      id: crypto.randomUUID(),
+      category: 'Event Marketing',
+      title: 'Summer Concert Series',
+      exerciseType: 'event-marketing',
+      createdAt: new Date().toISOString(),
+      content: {
+        instagramShort: 'Live music Saturday at Willow Creek. Local artist, great wine, mountain sunset. See you there. 🎵🍷',
+        instagramLong: 'This Saturday, we\'re turning up the volume at Willow Creek Vineyards! 🎶\n\nJoin us for an evening of live music, local wine, and those Georgia mountain sunsets you can\'t get anywhere else.\n\nBring a blanket, grab a glass of our Estate Rosé, and unwind with us.\n\n📍 Willow Creek Vineyards, Dahlonega\n🕐 5-8 PM\n🎟️ Reservations recommended - link in bio\n\n#GeorgiaWine #LiveMusic #DahlonegaWineries #WineryEvents #NorthGeorgia #WeekendVibes #WineCountry',
+        emailInvite: 'Subject: Live Music Saturday at Willow Creek - Save Your Spot\n\nHi there,\n\nThis Saturday, we\'re hosting live music at the vineyard and we\'d love to see you there.\n\nA fantastic local artist will be playing from 5-8 PM, and we\'ll have all your Willow Creek favorites available by the glass or bottle. The weather forecast looks perfect - bring a blanket and settle in for a relaxed evening under the stars.\n\nSpace is limited, so if you\'d like to guarantee a spot, we recommend reserving ahead. Walk-ins welcome as space allows.\n\n[RESERVE YOUR SPOT]\n\nHope to see you Saturday!\n\nCheers,\nThe Willow Creek Team',
+        staffScript: 'Hey, just wanted to let you know we\'ve got live music this Saturday evening! Great local artist, and the weather forecast looks perfect. If you want to come back, I\'d grab a reservation - we usually fill up for these events. Want me to give you the link?'
+      }
+    },
+    {
+      id: crypto.randomUUID(),
+      category: 'Lightning Lab',
+      title: 'Winery FAQ Generator',
+      exerciseType: 'lightning-lab',
+      createdAt: new Date().toISOString(),
+      content: {
+        faqs: [
+          { question: 'Do I need a reservation to visit Willow Creek?', answer: 'Reservations are recommended on weekends but not required. Walk-ins are always welcome on weekdays. For groups of 8 or more, please call ahead so we can ensure the best experience for your party.' },
+          { question: 'What wines can I taste at Willow Creek?', answer: 'Our tasting flight includes 5-6 wines and typically features our Reserve Chardonnay, Sweet Muscadine, Estate Rosé, and Mountain Red Blend. We rotate selections based on seasonal availability.' },
+          { question: 'Is Willow Creek family-friendly?', answer: 'Yes! We welcome families. Children can enjoy our outdoor lawn area and mountain views while parents taste. We offer grape juice for the little ones and have lawn games available on weekends.' },
+          { question: 'Can I bring food to the winery?', answer: 'Absolutely! Picnics are encouraged on our grounds - it\'s one of the best ways to enjoy the view. We also offer cheese boards and local snacks for purchase. Outside alcohol is not permitted.' },
+          { question: 'How do I join the Willow Creek Wine Club?', answer: 'Just ask any team member during your visit or sign up on our website. Members receive quarterly shipments of our best wines, 20% off all purchases, and exclusive invitations to harvest events and member tastings.' }
+        ],
+        staffTips: [
+          'For first-time visitors, start with our most approachable wine (Sweet Muscadine) and work toward dryer options',
+          'If guests mention a special occasion, let them know about our private tasting room option'
+        ]
+      }
+    }
+  ];
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(mockItems));
+  
+  console.log('Mock data loaded! Downloading PDF...');
+  downloadReport();
+}
+
+// Expose to window for easy console access
+if (typeof window !== 'undefined') {
+  (window as unknown as Record<string, unknown>).loadMockDataAndDownload = loadMockDataAndDownload;
+}
+
 function formatTastingNotes(content: Record<string, unknown>): string {
   const lines: string[] = [];
   if (content.websiteNote) {
@@ -1163,7 +1324,7 @@ export async function downloadReport(): Promise<void> {
           doc.setFont('helvetica', 'normal');
           (content.staffBullets as string[]).forEach((bullet) => {
             checkNewPage(8);
-            const bulletLines = doc.splitTextToSize('• ' + bullet, contentWidth - 10);
+            const bulletLines = doc.splitTextToSize('- ' + bullet, contentWidth - 10);
             doc.text(bulletLines, margin + 2, yPos);
             yPos += (bulletLines.length * 4) + 1;
           });
@@ -1178,11 +1339,11 @@ export async function downloadReport(): Promise<void> {
           doc.setFont('helvetica', 'normal');
           (content.topWines as Array<{ name: string; revenue: string; insight?: string }>).forEach((wine) => {
             checkNewPage(8);
-            doc.text(`• ${wine.name}: ${wine.revenue}`, margin + 2, yPos);
+            doc.text(`- ${wine.name}: ${wine.revenue}`, margin + 2, yPos);
             yPos += 4;
             if (wine.insight) {
               doc.setTextColor(100, 100, 100);
-              doc.text(`  → ${wine.insight}`, margin + 4, yPos);
+              doc.text(`  > ${wine.insight}`, margin + 4, yPos);
               doc.setTextColor(60, 60, 60);
               yPos += 4;
             }
@@ -1196,11 +1357,11 @@ export async function downloadReport(): Promise<void> {
           doc.setFont('helvetica', 'normal');
           (content.bottomWines as Array<{ name: string; revenue: string; insight?: string }>).forEach((wine) => {
             checkNewPage(8);
-            doc.text(`• ${wine.name}: ${wine.revenue}`, margin + 2, yPos);
+            doc.text(`- ${wine.name}: ${wine.revenue}`, margin + 2, yPos);
             yPos += 4;
             if (wine.insight) {
               doc.setTextColor(100, 100, 100);
-              doc.text(`  → ${wine.insight}`, margin + 4, yPos);
+              doc.text(`  > ${wine.insight}`, margin + 4, yPos);
               doc.setTextColor(60, 60, 60);
               yPos += 4;
             }
@@ -1214,7 +1375,7 @@ export async function downloadReport(): Promise<void> {
           doc.setFont('helvetica', 'normal');
           (content.whatThisMeans as string[]).forEach((insight) => {
             checkNewPage(8);
-            const insightLines = doc.splitTextToSize('• ' + insight, contentWidth - 10);
+            const insightLines = doc.splitTextToSize('- ' + insight, contentWidth - 10);
             doc.text(insightLines, margin + 2, yPos);
             yPos += (insightLines.length * 4) + 1;
           });
@@ -1247,7 +1408,7 @@ export async function downloadReport(): Promise<void> {
             doc.setFont('helvetica', 'normal');
             yPos += 4;
             day.tasks.forEach((task) => {
-              const taskLines = doc.splitTextToSize('□ ' + task, contentWidth - 15);
+              const taskLines = doc.splitTextToSize('[ ] ' + task, contentWidth - 15);
               doc.text(taskLines, margin + 6, yPos);
               yPos += (taskLines.length * 4) + 1;
             });
@@ -1325,7 +1486,7 @@ export async function downloadReport(): Promise<void> {
           doc.setFont('helvetica', 'normal');
           (content.cheatSheet as string[]).forEach((tip) => {
             checkNewPage(8);
-            const tipLines = doc.splitTextToSize('• ' + tip, contentWidth - 10);
+            const tipLines = doc.splitTextToSize('- ' + tip, contentWidth - 10);
             doc.text(tipLines, margin + 2, yPos);
             yPos += (tipLines.length * 4) + 1;
           });
@@ -1368,7 +1529,7 @@ export async function downloadReport(): Promise<void> {
           doc.roundedRect(margin, yPos, contentWidth, 10, 2, 2, 'F');
           doc.setFontSize(8);
           doc.setTextColor(180, 83, 9);
-          const disclaimerLines = doc.splitTextToSize('⚠️ ' + String(content.disclaimer), contentWidth - 6);
+          const disclaimerLines = doc.splitTextToSize('NOTE: ' + String(content.disclaimer), contentWidth - 6);
           doc.text(disclaimerLines, margin + 3, yPos + 6);
           yPos += 12;
           doc.setFontSize(9);
