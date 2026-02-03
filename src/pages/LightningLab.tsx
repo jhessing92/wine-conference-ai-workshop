@@ -12,14 +12,14 @@ const labTools = [
   { id: 'winery-faq', label: 'Winery FAQ', icon: HelpCircle, color: 'cyan', contextAware: true },
   { id: 'social-calendar', label: 'Social Calendar', icon: Calendar, color: 'blue', contextAware: true },
   { id: 'thank-you-email', label: 'Thank You Email', icon: Mail, color: 'teal', contextAware: true },
-  { id: 'staff-training', label: 'Staff Training', icon: GraduationCap, color: 'amber' },
-  { id: 'labor-schedule', label: 'Labor Schedule', icon: Clock, color: 'slate' },
-  { id: 'wine-club-campaign', label: 'Wine Club Campaign', icon: Wine, color: 'wine' },
-  { id: 'customer-sop', label: 'Customer SOP', icon: Users, color: 'orange' },
-  { id: 'job-description', label: 'Job Description', icon: FileText, color: 'slate' },
-  { id: 'cogs-model', label: 'COGS / Revenue', icon: DollarSign, color: 'lime' },
-  { id: 'compliance-checklist', label: 'Compliance Checklist', icon: Shield, color: 'orange' },
-  { id: 'vine-triage', label: 'Vine Issue Triage', icon: Leaf, color: 'lime' },
+  { id: 'staff-training', label: 'Staff Training', icon: GraduationCap, color: 'amber', contextAware: true },
+  { id: 'labor-schedule', label: 'Labor Schedule', icon: Clock, color: 'slate', contextAware: true },
+  { id: 'wine-club-campaign', label: 'Wine Club Campaign', icon: Wine, color: 'wine', contextAware: true },
+  { id: 'customer-sop', label: 'Customer SOP', icon: Users, color: 'orange', contextAware: true },
+  { id: 'job-description', label: 'Job Description', icon: FileText, color: 'slate', contextAware: true },
+  { id: 'cogs-model', label: 'COGS / Revenue', icon: DollarSign, color: 'lime', contextAware: true },
+  { id: 'compliance-checklist', label: 'Compliance Checklist', icon: Shield, color: 'orange', contextAware: true },
+  { id: 'vine-triage', label: 'Vine Issue Triage', icon: Leaf, color: 'lime', contextAware: true },
 ];
 
 const colorClasses: Record<string, string> = {
@@ -116,6 +116,7 @@ function ToolPanel({ tool, onBack }: { tool: LabTool; onBack: () => void }) {
       title: 'Staff Training Material',
       fields: [{ key: 'topic', label: 'Training topic', placeholder: 'e.g., Handling wine questions' }],
       category: 'Lightning Lab',
+      contextAware: true,
     },
     'labor-schedule': {
       title: 'Labor Schedule',
@@ -124,6 +125,7 @@ function ToolPanel({ tool, onBack }: { tool: LabTool; onBack: () => void }) {
         { key: 'events', label: 'Events this week', placeholder: 'e.g., Live music Saturday' },
       ],
       category: 'Lightning Lab',
+      contextAware: true,
     },
     'wine-club-campaign': {
       title: 'Wine Club Campaign',
@@ -132,11 +134,13 @@ function ToolPanel({ tool, onBack }: { tool: LabTool; onBack: () => void }) {
         { key: 'benefits', label: 'Current benefits', placeholder: 'e.g., 20% discount, exclusive events' },
       ],
       category: 'Lightning Lab',
+      contextAware: true,
     },
     'customer-sop': {
       title: 'Customer SOP',
       fields: [{ key: 'scenario', label: 'Scenario', placeholder: 'e.g., Handling customer complaints' }],
       category: 'Lightning Lab',
+      contextAware: true,
     },
     'job-description': {
       title: 'Job Description',
@@ -145,6 +149,7 @@ function ToolPanel({ tool, onBack }: { tool: LabTool; onBack: () => void }) {
         { key: 'hours', label: 'Hours', placeholder: 'e.g., Part-time weekends' },
       ],
       category: 'Lightning Lab',
+      contextAware: true,
     },
     'cogs-model': {
       title: 'COGS Analysis',
@@ -154,11 +159,13 @@ function ToolPanel({ tool, onBack }: { tool: LabTool; onBack: () => void }) {
         { key: 'costs', label: 'Known costs', placeholder: 'e.g., Grapes $8, bottling $3' },
       ],
       category: 'Lightning Lab',
+      contextAware: true,
     },
     'compliance-checklist': {
       title: 'Compliance Questions',
       fields: [{ key: 'area', label: 'Compliance area', placeholder: 'e.g., TTB label approval' }],
       category: 'Lightning Lab',
+      contextAware: true,
     },
     'vine-triage': {
       title: 'Vine Issue Triage',
@@ -167,6 +174,7 @@ function ToolPanel({ tool, onBack }: { tool: LabTool; onBack: () => void }) {
         { key: 'location', label: 'Location', placeholder: 'e.g., Lower section near creek' },
       ],
       category: 'Lightning Lab',
+      contextAware: true,
     },
   };
 
@@ -357,11 +365,9 @@ function ToolPanel({ tool, onBack }: { tool: LabTool; onBack: () => void }) {
           </div>
         ))}
 
-        {!config.contextAware && (
-          <button onClick={handleUseSample} className="text-slate-500 text-sm hover:text-cyan-400 transition-colors">
-            Or use sample inputs
-          </button>
-        )}
+        <button onClick={handleUseSample} className="text-slate-500 text-sm hover:text-cyan-400 transition-colors">
+          Or use sample output
+        </button>
       </div>
 
       <button onClick={handleGenerate} className="btn-primary flex items-center justify-center gap-2">
