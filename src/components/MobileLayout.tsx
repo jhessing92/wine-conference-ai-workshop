@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowLeft, Users } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 const steps = [
   { id: 'hub', label: 'Hub', path: '/gwp-2026' },
@@ -53,10 +53,6 @@ export default function MobileLayout({
             </h1>
           </div>
 
-          <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-slate-400 text-xs">
-            <Users className="w-3.5 h-3.5" />
-            <span>Pair up</span>
-          </button>
         </div>
 
         {!hideProgress && (

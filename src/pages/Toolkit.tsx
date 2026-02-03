@@ -66,8 +66,8 @@ export default function Toolkit() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  const handleDownload = () => {
-    downloadReport();
+  const handleDownload = async () => {
+    await downloadReport();
   };
 
   const groupedItems = items.reduce((acc, item) => {

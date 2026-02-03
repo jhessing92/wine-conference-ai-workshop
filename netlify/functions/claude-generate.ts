@@ -76,7 +76,7 @@ Respond with valid JSON containing:
 {
   "instagramShort": "Short Instagram caption (under 150 chars) - use actual winery name if provided",
   "instagramLong": "Longer Instagram caption with hashtags - use actual winery name if provided",
-  "emailInvite": "Email invitation (150-200 words) - use actual winery name if provided",
+  "emailInvite": "Email invitation formatted as a proper email with: SUBJECT LINE on first line, then blank line, then greeting (Dear Wine Lovers, etc), then 2-3 short paragraphs with blank lines between them, then a call to action, then sign-off. Use \\n\\n for paragraph breaks. Total 150-200 words.",
   "staffScript": "15-second verbal invitation script - use actual winery name if provided"
 }`,
 
