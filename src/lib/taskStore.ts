@@ -848,7 +848,7 @@ export async function downloadReport(): Promise<void> {
   const pageHeight = doc.internal.pageSize.getHeight();
   const margin = 20;
   const contentWidth = pageWidth - (margin * 2);
-  let yPos = margin;
+  let yPos = 10; // Start closer to top
 
   // Colors
   const tealColor: [number, number, number] = [6, 182, 212]; // cyan-500
@@ -858,7 +858,7 @@ export async function downloadReport(): Promise<void> {
 
   // Header background
   doc.setFillColor(...darkBg);
-  doc.rect(0, 0, pageWidth, 70, 'F');
+  doc.rect(0, 0, pageWidth, 65, 'F');
 
   // Try to load and add logo image
   try {
@@ -870,53 +870,54 @@ export async function downloadReport(): Promise<void> {
         reader.onloadend = () => resolve(reader.result as string);
         reader.readAsDataURL(logoBlob);
       });
-      // Logo dimensions: original is 2164x508, scale to fit nicely (about 50mm wide)
-      const logoWidth = 50;
+      // Logo dimensions: original is 2164x508, scale to fit nicely (about 45mm wide)
+      const logoWidth = 45;
       const logoHeight = logoWidth * (508 / 2164); // maintain aspect ratio
       doc.addImage(logoBase64, 'PNG', margin, yPos, logoWidth, logoHeight);
-      yPos += logoHeight + 5;
+      yPos += logoHeight + 3;
     } else {
       // Fallback to text logo if image fails
       doc.setFillColor(...tealColor);
-      doc.roundedRect(margin, yPos, 40, 12, 2, 2, 'F');
+      doc.roundedRect(margin, yPos, 40, 10, 2, 2, 'F');
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(9);
       doc.setFont('helvetica', 'bold');
-      doc.text('shoofly.ai', margin + 5, yPos + 8);
-      yPos += 20;
+      doc.text('shoofly.ai', margin + 5, yPos + 7);
+      yPos += 15;
     }
   } catch {
     // Fallback to text logo if image loading fails
     doc.setFillColor(...tealColor);
-    doc.roundedRect(margin, yPos, 40, 12, 2, 2, 'F');
+    doc.roundedRect(margin, yPos, 40, 10, 2, 2, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(9);
     doc.setFont('helvetica', 'bold');
-    doc.text('shoofly.ai', margin + 5, yPos + 8);
-    yPos += 20;
+    doc.text('shoofly.ai', margin + 5, yPos + 7);
+    yPos += 15;
   }
 
-  // Main title with quotes
+  // Main title with quotes - left aligned
   doc.setTextColor(...textLight);
-  doc.setFontSize(28);
+  doc.setFontSize(26);
   doc.setFont('helvetica', 'bold');
   doc.text('"AI Can Do That"', margin, yPos);
 
-  yPos += 12;
+  yPos += 10;
 
-  // Event name
+  // Event name - left aligned
   doc.setTextColor(...tealColor);
-  doc.setFontSize(14);
+  doc.setFontSize(12);
   doc.setFont('helvetica', 'normal');
   doc.text('Georgia Wine Festival 2026', margin, yPos);
 
-  yPos += 6;
+  yPos += 5;
 
+  // Location - left aligned
   doc.setTextColor(...textMuted);
-  doc.setFontSize(11);
+  doc.setFontSize(10);
   doc.text('Forsyth, Georgia', margin, yPos);
 
-  yPos += 25;
+  yPos += 20;
 
   // Reset for body content
   doc.setTextColor(50, 50, 50);
