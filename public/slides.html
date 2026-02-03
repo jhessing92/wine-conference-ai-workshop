@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Can Do That: Winery Edition - ShooflyAI x GWP 2026</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/theme/black.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --r-background-color: #0a0f14;
+      --r-main-font: 'Inter', system-ui, sans-serif;
+      --r-heading-font: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+      --r-main-color: #e2e8f0;
+      --r-heading-color: #ffffff;
+      --r-link-color: #22d3ee;
+      --r-link-color-hover: #67e8f9;
+      --teal-400: #2dd4bf;
+      --teal-500: #14b8a6;
+      --cyan-400: #22d3ee;
+      --cyan-500: #06b6d4;
+      --wine-500: #e63f6e;
+    }
+
+    .reveal {
+      font-family: var(--r-main-font);
+    }
+
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+      font-family: var(--r-heading-font);
+      font-weight: 700;
+      text-transform: none;
+      letter-spacing: -0.02em;
+    }
+
+    .reveal h1 {
+      font-size: 3.2em;
+      line-height: 1.1;
+    }
+
+    .reveal h2 {
+      font-size: 2.2em;
+      margin-bottom: 0.5em;
+    }
+
+    .reveal h3 {
+      font-size: 1.4em;
+      color: var(--cyan-400);
+    }
+
+    .reveal p {
+      line-height: 1.6;
+    }
+
+    .reveal .slides section {
+      height: 100%;
+      padding: 40px 60px;
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    .reveal .slides section > * {
+      max-width: 100%;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+    }
+
+    .reveal .slides section {
+      overflow-y: auto;
+    }
+
+    .reveal .slides section::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .reveal .slides section::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .reveal .slides section::-webkit-scrollbar-thumb {
+      background: rgba(34, 211, 238, 0.3);
+      border-radius: 3px;
+    }
+
+    .reveal img {
+      max-width: 100%;
+      height: auto;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .title-logo {
+      height: clamp(60px, 12vw, 100px) !important;
+      width: auto !important;
+      max-width: 500px !important;
+      margin-bottom: 32px;
+      object-fit: contain;
+    }
+
+    .event-info {
+      color: #64748b;
+      margin-top: clamp(24px, 5vw, 48px);
+      font-size: 0.9em;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 24px;
+      background: rgba(34, 211, 238, 0.1);
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      border-radius: 100px;
+      font-size: 0.9em;
+      color: var(--cyan-400);
+      margin-bottom: 24px;
+      width: auto !important;
+      flex-shrink: 0;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--teal-400) 0%, var(--cyan-400) 50%, var(--wine-500) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 1.5em;
+      color: #94a3b8;
+      margin-top: 16px;
+    }
+
+    .qr-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.08) 0%, rgba(20, 184, 166, 0.08) 100%);
+      border: 2px solid rgba(34, 211, 238, 0.2);
+      border-radius: 24px;
+      margin: 32px auto;
+      max-width: 400px;
+    }
+
+    .qr-placeholder {
+      width: 240px;
+      height: 240px;
+      background: white;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 16px;
+    }
+
+    .qr-label {
+      font-size: 1.1em;
+      color: var(--cyan-400);
+      font-weight: 600;
+    }
+
+    .qr-url {
+      font-size: 0.85em;
+      color: #64748b;
+      margin-top: 8px;
+      font-family: monospace;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      text-align: left;
+    }
+
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 24px;
+      font-size: 1.1em;
+    }
+
+    .feature-list .icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(34, 211, 238, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 24px;
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--cyan-500), var(--teal-500));
+      border-radius: 12px;
+      font-size: 1.4em;
+      font-weight: 700;
+      color: white;
+      margin-right: 16px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 32px;
+      text-align: left;
+    }
+
+    .card h4 {
+      color: var(--cyan-400);
+      font-size: 0.9em;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+
+    .exercise-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .exercise-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .exercise-card:hover {
+      border-color: rgba(34, 211, 238, 0.3);
+      background: rgba(34, 211, 238, 0.05);
+    }
+
+    .exercise-card .number {
+      font-size: 2em;
+      font-weight: 700;
+      color: var(--cyan-400);
+      margin-bottom: 8px;
+    }
+
+    .exercise-card h4 {
+      font-size: 1.1em;
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    .exercise-card p {
+      font-size: 0.85em;
+      color: #64748b;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.1) 0%, rgba(230, 63, 110, 0.1) 100%);
+      border: 1px solid rgba(34, 211, 238, 0.2);
+      border-radius: 16px;
+      padding: 32px;
+      margin: 32px 0;
+    }
+
+    .disclaimer {
+      background: rgba(251, 191, 36, 0.1);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      border-radius: 12px;
+      padding: 16px 24px;
+      font-size: 0.85em;
+      color: #fbbf24;
+      margin-top: 24px;
+    }
+
+    .cta-section {
+      text-align: center;
+      padding: 48px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 16px 48px;
+      background: linear-gradient(135deg, var(--cyan-500), var(--teal-500));
+      color: white;
+      font-weight: 600;
+      font-size: 1.2em;
+      border-radius: 12px;
+      text-decoration: none;
+      margin-top: 24px;
+    }
+
+    .footer-info {
+      position: absolute;
+      bottom: 24px;
+      left: 60px;
+      right: 60px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8em;
+      color: #475569;
+    }
+
+    .role-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .role-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    .role-card .icon {
+      font-size: 2.5em;
+      margin-bottom: 16px;
+    }
+
+    .role-card h4 {
+      font-size: 1.2em;
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    .role-card p {
+      font-size: 0.9em;
+      color: #64748b;
+    }
+
+    .role-card.owner { border-color: rgba(251, 191, 36, 0.3); }
+    .role-card.vineyard { border-color: rgba(34, 197, 94, 0.3); }
+    .role-card.tasting { border-color: rgba(230, 63, 110, 0.3); }
+
+    .timer-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(34, 211, 238, 0.1);
+      border-radius: 100px;
+      font-size: 0.9em;
+      color: var(--cyan-400);
+    }
+
+    .output-preview {
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: left;
+      font-family: 'Inter', monospace;
+      font-size: 0.9em;
+    }
+
+    .output-preview .label {
+      color: var(--cyan-400);
+      font-size: 0.75em;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+
+    .output-preview .content {
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+
+    .speaker-notes {
+      display: none;
+    }
+
+    @media (max-width: 1024px) {
+      .reveal h1 {
+        font-size: 2.5em;
+      }
+
+      .reveal h2 {
+        font-size: 1.8em;
+      }
+
+      .reveal h3 {
+        font-size: 1.2em;
+      }
+
+      .reveal .slides section {
+        padding: 30px 40px;
+      }
+
+      .two-column {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+      }
+
+      .exercise-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+      }
+
+      .role-cards {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .reveal h1 {
+        font-size: 2em;
+      }
+
+      .reveal h2 {
+        font-size: 1.5em;
+      }
+
+      .reveal .slides section {
+        padding: 20px 24px;
+      }
+
+      .brand-badge {
+        font-size: 0.75em;
+        padding: 6px 16px;
+      }
+
+      .deck-nav {
+        top: 12px;
+        right: 12px;
+      }
+
+      .deck-nav a {
+        padding: 8px 16px;
+        font-size: 0.8em;
+      }
+
+      .qr-placeholder {
+        width: 180px;
+        height: 180px;
+        font-size: 12px;
+      }
+
+      .qr-container {
+        padding: 20px;
+        margin: 20px auto;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .exercise-card {
+        padding: 16px;
+      }
+
+      .highlight-box {
+        padding: 20px;
+        margin: 20px 0;
+      }
+
+      .subtitle {
+        font-size: 1.2em;
+      }
+
+      .feature-list li {
+        font-size: 0.9em;
+        margin-bottom: 16px;
+      }
+
+      .feature-list .icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+    }
+
+    @media print {
+      .reveal .slides section {
+        page-break-after: always;
+        height: auto;
+        min-height: 100vh;
+      }
+    }
+
+    .deck-nav {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 1000;
+    }
+
+    .deck-nav a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: rgba(34, 211, 238, 0.1);
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      border-radius: 100px;
+      color: var(--cyan-400);
+      text-decoration: none;
+      font-size: 0.9em;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .deck-nav a:hover {
+      background: rgba(34, 211, 238, 0.2);
+      border-color: rgba(34, 211, 238, 0.5);
+    }
+
+    .deck-nav svg {
+      width: 16px;
+      height: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="deck-nav">
+    <a href="/gwp-2026">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      </svg>
+      Back to Exercises
+    </a>
+  </div>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- SLIDE 1: Title -->
+      <section class="title-slide">
+        <img src="https://i.imgur.com/E6quH0d.png" alt="Shoofly Logo" class="title-logo" />
+        <div class="brand-badge">ShooflyAI x GWP 2026</div>
+        <h1>AI Can Do That</h1>
+        <p class="subtitle gradient-text">Winery Edition</p>
+        <p class="event-info">
+          February 3, 2026 | Business/Marketing Breakout<br>
+          Forsyth Conference Center
+        </p>
+        <aside class="notes">
+          Welcome everyone. Phones out - this is a hands-on workshop, not a lecture.
+          No tech skills required. If you can text, you can do this.
+        </aside>
+      </section>
+
+      <!-- SLIDE 2: Set Expectations -->
+      <section>
+        <h2>What We're Doing Today</h2>
+        <div class="two-column" style="margin-top: 48px;">
+          <div>
+            <ul class="feature-list">
+              <li>
+                <span class="icon">📱</span>
+                <div>
+                  <strong>Hands-on exercises</strong><br>
+                  <span style="color: #64748b;">You'll generate real outputs on your phone</span>
+                </div>
+              </li>
+              <li>
+                <span class="icon">🍷</span>
+                <div>
+                  <strong>Winery-specific workflows</strong><br>
+                  <span style="color: #64748b;">Tasting notes, marketing, owner decisions</span>
+                </div>
+              </li>
+              <li>
+                <span class="icon">📦</span>
+                <div>
+                  <strong>Take-home toolkit</strong><br>
+                  <span style="color: #64748b;">Save everything to use after today</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div class="highlight-box">
+              <h3 style="margin-bottom: 16px;">The Rule</h3>
+              <p style="font-size: 1.4em; color: white; font-weight: 600;">
+                AI drafts.<br>You decide.
+              </p>
+              <p style="color: #64748b; margin-top: 16px; font-size: 0.9em;">
+                Everything you see is a starting point, not a final answer.
+              </p>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          Quick logistics: This is interactive. You'll scan QR codes and use your phone.
+          Everything AI generates is a draft - you always have the final say.
+          No ChatGPT account needed - it's built into the experience.
+        </aside>
+      </section>
+
+      <!-- SLIDE 3: Get Started QR -->
+      <section>
+        <h2>Get Started</h2>
+        <p style="color: #94a3b8;">Scan to open the workshop hub on your phone</p>
+        <div class="qr-container">
+          <div class="qr-placeholder" id="qr-hub">
+            [QR Code]<br>Hub Page
+          </div>
+          <span class="qr-label">Point your camera here</span>
+          <span class="qr-url">gwp2026.shoofly.ai</span>
+        </div>
+        <p style="color: #64748b; font-size: 0.85em; margin-top: 24px;">
+          No app needed. Opens in your browser.<br>
+          Having trouble? Pair up with a neighbor.
+        </p>
+        <aside class="notes">
+          Give them 60 seconds to scan. Walk around and help anyone who's stuck.
+          "Having trouble? That's fine - pair up with your neighbor."
+        </aside>
+      </section>
+
+      <!-- SLIDE 4: Exercise Overview -->
+      <section>
+        <h2>Today's Exercises</h2>
+        <div class="exercise-grid">
+          <div class="exercise-card">
+            <div class="number">1</div>
+            <h4>Tasting Notes</h4>
+            <p>3 versions from one wine</p>
+            <span class="timer-badge">5 min</span>
+          </div>
+          <div class="exercise-card">
+            <div class="number">2</div>
+            <h4>Role Track</h4>
+            <p>Pick your seat</p>
+            <span class="timer-badge">8 min</span>
+          </div>
+          <div class="exercise-card">
+            <div class="number">3</div>
+            <h4>Event Marketing</h4>
+            <p>Full kit in 60 seconds</p>
+            <span class="timer-badge">5 min</span>
+          </div>
+          <div class="exercise-card">
+            <div class="number">4</div>
+            <h4>Numbers to Decisions</h4>
+            <p>One action this week</p>
+            <span class="timer-badge">5 min</span>
+          </div>
+          <div class="exercise-card">
+            <div class="number">5</div>
+            <h4>Lightning Lab</h4>
+            <p>Quick tools</p>
+            <span class="timer-badge">5 min</span>
+          </div>
+          <div class="exercise-card" style="border-color: rgba(34, 211, 238, 0.3);">
+            <div class="number" style="color: var(--teal-400);">+</div>
+            <h4>Toolkit</h4>
+            <p>Your saved outputs</p>
+            <span class="timer-badge">Take home</span>
+          </div>
+        </div>
+        <aside class="notes">
+          Quick overview of what we'll cover. About 30 minutes total of exercises.
+          Don't worry if you fall behind - everything saves to your toolkit.
+        </aside>
+      </section>
+
+      <!-- SLIDE 5: Exercise 1 - Tasting Notes -->
+      <section>
+        <div class="two-column">
+          <div>
+            <span class="step-number">1</span>
+            <h2 style="display: inline; vertical-align: middle;">Tasting Notes</h2>
+            <p style="color: #94a3b8; margin-top: 24px; font-size: 1.1em;">
+              Generate three versions of tasting notes from one wine:
+            </p>
+            <ul class="feature-list" style="margin-top: 24px;">
+              <li>
+                <span class="icon">🌐</span>
+                <div>Website copy</div>
+              </li>
+              <li>
+                <span class="icon">📋</span>
+                <div>Menu description</div>
+              </li>
+              <li>
+                <span class="icon">💬</span>
+                <div>Staff talking points</div>
+              </li>
+            </ul>
+            <div class="timer-badge" style="margin-top: 24px;">5 minutes</div>
+          </div>
+          <div>
+            <div class="qr-container">
+              <div class="qr-placeholder" id="qr-tasting">
+                [QR Code]<br>Tasting Notes
+              </div>
+              <span class="qr-label">Scan to start</span>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          "Pick a tone, pick your audience, and Claude drafts three versions."
+          Walk them through: tap Upload Photo or Use Sample, select options, hit Generate.
+          "Remember: these are drafts. Edit them to match your voice."
+        </aside>
+      </section>
+
+      <!-- SLIDE 6: Exercise 2 - Role Track Intro -->
+      <section>
+        <div class="two-column">
+          <div>
+            <span class="step-number">2</span>
+            <h2 style="display: inline; vertical-align: middle;">Pick Your Seat</h2>
+            <p style="color: #94a3b8; margin-top: 24px; font-size: 1.1em;">
+              Everyone does this together. Choose the role that fits you best today.
+            </p>
+            <div class="timer-badge" style="margin-top: 24px;">8 minutes</div>
+          </div>
+          <div>
+            <div class="qr-container">
+              <div class="qr-placeholder" id="qr-role">
+                [QR Code]<br>Role Track
+              </div>
+              <span class="qr-label">Scan to choose</span>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          "This is where it gets personal. Pick the role that matches what you do day-to-day."
+          Three paths - everyone picks one and goes through it.
+        </aside>
+      </section>
+
+      <!-- SLIDE 7: Role Track Options -->
+      <section>
+        <h2>Three Paths</h2>
+        <div class="role-cards">
+          <div class="role-card owner">
+            <div class="icon">📊</div>
+            <h4>Owner</h4>
+            <p>Numbers to decisions</p>
+            <p style="color: #fbbf24; font-size: 0.8em; margin-top: 12px;">
+              Top/bottom performers, insights, 3 actions this week
+            </p>
+          </div>
+          <div class="role-card vineyard">
+            <div class="icon">🌿</div>
+            <h4>Vineyard</h4>
+            <p>7-day planning</p>
+            <p style="color: #22c55e; font-size: 0.8em; margin-top: 12px;">
+              Weekly checklist, decision tree, questions for your expert
+            </p>
+          </div>
+          <div class="role-card tasting">
+            <div class="icon">🍷</div>
+            <h4>Tasting Room</h4>
+            <p>Scripts that protect the brand</p>
+            <p style="color: #e63f6e; font-size: 0.8em; margin-top: 12px;">
+              Welcome scripts, objection responses, staff cheat sheet
+            </p>
+          </div>
+        </div>
+        <div class="disclaimer">
+          Vineyard outputs are planning support only. Always validate with your viticulture expert.
+        </div>
+        <aside class="notes">
+          Quick explanation of each path. Most people will know immediately which one fits.
+          Emphasize the vineyard disclaimer - we're not giving farming advice, just helping organize planning.
+        </aside>
+      </section>
+
+      <!-- SLIDE 8: Exercise 3 - Event Marketing -->
+      <section>
+        <div class="two-column">
+          <div>
+            <span class="step-number">3</span>
+            <h2 style="display: inline; vertical-align: middle;">Event Marketing Kit</h2>
+            <p style="color: #94a3b8; margin-top: 24px; font-size: 1.1em;">
+              Full marketing kit in under 60 seconds:
+            </p>
+            <ul class="feature-list" style="margin-top: 24px;">
+              <li>
+                <span class="icon">📸</span>
+                <div>Instagram captions (short + long)</div>
+              </li>
+              <li>
+                <span class="icon">📧</span>
+                <div>Email invite</div>
+              </li>
+              <li>
+                <span class="icon">🗣️</span>
+                <div>15-second staff script</div>
+              </li>
+            </ul>
+            <div class="timer-badge" style="margin-top: 24px;">5 minutes</div>
+          </div>
+          <div>
+            <div class="qr-container">
+              <div class="qr-placeholder" id="qr-event">
+                [QR Code]<br>Event Marketing
+              </div>
+              <span class="qr-label">Scan to start</span>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          "Think about an upcoming event - live music, release party, whatever."
+          Show them how fast this is. Select event type, date, audience, hit generate.
+          "This alone could save you an hour every time you promote an event."
+        </aside>
+      </section>
+
+      <!-- SLIDE 9: Exercise 4 - Numbers to Decisions -->
+      <section>
+        <div class="two-column">
+          <div>
+            <span class="step-number">4</span>
+            <h2 style="display: inline; vertical-align: middle;">Numbers to One Action</h2>
+            <p style="color: #94a3b8; margin-top: 24px; font-size: 1.1em;">
+              Paste any numbers. Get one clear action.
+            </p>
+            <div class="output-preview" style="margin-top: 24px;">
+              <div class="label">Sample Output</div>
+              <div class="content">
+                <strong style="color: var(--cyan-400);">Best Chart:</strong> Monthly trend line<br><br>
+                <strong style="color: var(--cyan-400);">Main Insight:</strong> April sales up 17% - your spring event strategy is working<br><br>
+                <strong style="color: var(--cyan-400);">This Week:</strong> Double down on event promotion for May
+              </div>
+            </div>
+            <div class="timer-badge" style="margin-top: 24px;">5 minutes</div>
+          </div>
+          <div>
+            <div class="qr-container">
+              <div class="qr-placeholder" id="qr-numbers">
+                [QR Code]<br>Numbers to Decisions
+              </div>
+              <span class="qr-label">Scan to start</span>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          "This is for the spreadsheet-phobes. Paste numbers in any format - Claude figures it out."
+          Use sample data if they don't have their own. The point is seeing the output format.
+        </aside>
+      </section>
+
+      <!-- SLIDE 10: Exercise 5 - Lightning Lab -->
+      <section>
+        <div class="two-column">
+          <div>
+            <span class="step-number">5</span>
+            <h2 style="display: inline; vertical-align: middle;">Lightning Lab</h2>
+            <p style="color: #94a3b8; margin-top: 24px; font-size: 1.1em;">
+              Quick tools for common tasks. Pick one and try it.
+            </p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px;">
+              <div class="card" style="padding: 16px;">
+                <p style="font-size: 0.9em;">Staff Training</p>
+              </div>
+              <div class="card" style="padding: 16px;">
+                <p style="font-size: 0.9em;">Labor Schedule</p>
+              </div>
+              <div class="card" style="padding: 16px;">
+                <p style="font-size: 0.9em;">Wine Club Campaign</p>
+              </div>
+              <div class="card" style="padding: 16px;">
+                <p style="font-size: 0.9em;">Job Description</p>
+              </div>
+              <div class="card" style="padding: 16px;">
+                <p style="font-size: 0.9em;">COGS Analysis</p>
+              </div>
+              <div class="card" style="padding: 16px;">
+                <p style="font-size: 0.9em;">+ More</p>
+              </div>
+            </div>
+            <div class="timer-badge" style="margin-top: 24px;">5 minutes</div>
+          </div>
+          <div>
+            <div class="qr-container">
+              <div class="qr-placeholder" id="qr-lightning">
+                [QR Code]<br>Lightning Lab
+              </div>
+              <span class="qr-label">Scan to explore</span>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          "This is the grab bag. Pick whatever sounds useful and try it."
+          These are all things that normally take 30+ minutes - now done in seconds.
+        </aside>
+      </section>
+
+      <!-- SLIDE 11: Your Toolkit -->
+      <section>
+        <h2>Your Take-Home Toolkit</h2>
+        <p style="color: #94a3b8; font-size: 1.1em;">
+          Everything you saved is waiting for you
+        </p>
+        <div class="two-column" style="margin-top: 48px;">
+          <div>
+            <ul class="feature-list">
+              <li>
+                <span class="icon">✓</span>
+                <div>
+                  <strong>Tasting notes template</strong><br>
+                  <span style="color: #64748b;">Ready to customize</span>
+                </div>
+              </li>
+              <li>
+                <span class="icon">✓</span>
+                <div>
+                  <strong>Role-based workflow</strong><br>
+                  <span style="color: #64748b;">Owner, vineyard, or tasting room</span>
+                </div>
+              </li>
+              <li>
+                <span class="icon">✓</span>
+                <div>
+                  <strong>Event marketing kit</strong><br>
+                  <span style="color: #64748b;">Social, email, scripts</span>
+                </div>
+              </li>
+              <li>
+                <span class="icon">✓</span>
+                <div>
+                  <strong>Numbers insight</strong><br>
+                  <span style="color: #64748b;">One action this week</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div class="qr-container">
+              <div class="qr-placeholder" id="qr-toolkit">
+                [QR Code]<br>Toolkit
+              </div>
+              <span class="qr-label">View your toolkit</span>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          "Open your toolkit and make sure everything saved."
+          This is their take-home - they can come back to it anytime.
+        </aside>
+      </section>
+
+      <!-- SLIDE 12: Key Takeaways -->
+      <section>
+        <h2>What You Just Learned</h2>
+        <div style="max-width: 800px; margin: 48px auto;">
+          <div class="highlight-box" style="margin-bottom: 24px;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <span class="step-number">1</span>
+              <div>
+                <h3 style="color: white; margin: 0;">AI is a drafting tool</h3>
+                <p style="color: #94a3b8; margin: 8px 0 0 0;">It writes first drafts. You edit and approve.</p>
+              </div>
+            </div>
+          </div>
+          <div class="highlight-box" style="margin-bottom: 24px;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <span class="step-number">2</span>
+              <div>
+                <h3 style="color: white; margin: 0;">Minutes, not hours</h3>
+                <p style="color: #94a3b8; margin: 8px 0 0 0;">Marketing kits, scripts, analysis - all in under a minute.</p>
+              </div>
+            </div>
+          </div>
+          <div class="highlight-box">
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <span class="step-number">3</span>
+              <div>
+                <h3 style="color: white; margin: 0;">No tech skills required</h3>
+                <p style="color: #94a3b8; margin: 8px 0 0 0;">If you can tap buttons and read, you can use this.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          Recap the core messages. These are the three things they should remember.
+        </aside>
+      </section>
+
+      <!-- SLIDE 13: Beta Interest -->
+      <section>
+        <h2>Want More?</h2>
+        <p style="color: #94a3b8; font-size: 1.1em;">
+          We're building a winery-specific AI assistant
+        </p>
+        <div class="two-column" style="margin-top: 48px;">
+          <div>
+            <div class="card">
+              <h4>What it could do</h4>
+              <ul style="list-style: none; padding: 0; margin: 0; color: #e2e8f0;">
+                <li style="margin-bottom: 12px;">+ Owner decision support</li>
+                <li style="margin-bottom: 12px;">+ Tasting room scripts on demand</li>
+                <li style="margin-bottom: 12px;">+ Marketing drafts in your voice</li>
+                <li style="margin-bottom: 12px;">+ Planning checklists</li>
+              </ul>
+            </div>
+            <p style="color: #64748b; font-size: 0.9em; margin-top: 24px;">
+              No commitment. Just tell us if you're interested.
+            </p>
+          </div>
+          <div>
+            <div class="qr-container">
+              <div class="qr-placeholder" id="qr-beta">
+                [QR Code]<br>Beta Interest
+              </div>
+              <span class="qr-label">Join the waitlist</span>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          "If what you tried today would save you time every month, we'd love to hear from you."
+          This is optional - no pressure. But this helps us know if we should build this.
+        </aside>
+      </section>
+
+      <!-- SLIDE 14: Closing -->
+      <section>
+        <div style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+          <h1 class="gradient-text">AI drafts.<br>You decide.</h1>
+          <p style="color: #94a3b8; font-size: 1.3em; margin-top: 32px;">
+            Thank you for trying something new.
+          </p>
+          <div style="margin-top: 64px;">
+            <img src="https://i.imgur.com/E6quH0d.png" alt="Shoofly Logo" style="height: 60px; margin-bottom: 16px;" />
+            <div class="brand-badge">ShooflyAI</div>
+            <p style="color: #64748b; font-size: 0.9em; margin-top: 16px;">
+              Questions? Find me after the session.<br>
+              steve@shoofly.ai
+            </p>
+          </div>
+        </div>
+        <aside class="notes">
+          Thank everyone for participating. Remind them their toolkit is saved.
+          Hang around for questions - this is where the real conversations happen.
+        </aside>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: true,
+      showNotes: false,
+      transition: 'fade',
+      transitionSpeed: 'fast',
+      controls: true,
+      progress: true,
+      center: false,
+      width: 1920,
+      height: 1080,
+      margin: 0,
+    });
+
+    document.querySelectorAll('.qr-placeholder').forEach(el => {
+      const id = el.id;
+      const paths = {
+        'qr-hub': '/gwp-2026',
+        'qr-tasting': '/gwp-2026/1-tasting-notes',
+        'qr-role': '/gwp-2026/2-role-track',
+        'qr-event': '/gwp-2026/3-event-marketing',
+        'qr-numbers': '/gwp-2026/4-numbers-to-decisions',
+        'qr-lightning': '/gwp-2026/5-lightning-lab',
+        'qr-toolkit': '/gwp-2026/prompt-pack',
+        'qr-beta': '/gwp-2026/beta',
+      };
+
+      const path = paths[id];
+      if (path) {
+        const fullUrl = window.location.origin + path;
+        const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(fullUrl)}`;
+
+        el.innerHTML = '';
+        const img = document.createElement('img');
+        img.src = qrApiUrl;
+        img.alt = `QR Code for ${path}`;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.display = 'block';
+        el.appendChild(img);
+      }
+    });
+  </script>
+</body>
+</html>

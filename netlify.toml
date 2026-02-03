@@ -1,0 +1,25 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  # Only include functions from this project
+  included_files = ["netlify/functions/**"]
+
+[dev]
+  # Use the functions from this project only
+  functions = "netlify/functions"
+  # Ignore parent directories
+  autoLaunch = false
+
+# Redirects for SPA routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Environment variables are set in Netlify dashboard:
+# - ANTHROPIC_API_KEY
+# - PERPLEXITY_API_KEY
