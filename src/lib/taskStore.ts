@@ -1073,7 +1073,7 @@ export async function downloadReport(): Promise<void> {
       const logoWidth = 45;
       const logoHeight = logoWidth * (508 / 2164); // maintain aspect ratio
       doc.addImage(logoBase64, 'PNG', margin, yPos, logoWidth, logoHeight);
-      yPos += logoHeight + 3;
+      yPos += logoHeight + 8; // More padding between logo and title
     } else {
       // Fallback to text logo if image fails
       doc.setFillColor(...tealColor);
@@ -1548,11 +1548,32 @@ export async function downloadReport(): Promise<void> {
           yPos += 2;
         }
         
-        // Event Marketing
-        if (content.instagramShort) formatField('Instagram (Short)', String(content.instagramShort));
-        if (content.instagramLong) formatField('Instagram (Long)', String(content.instagramLong));
-        if (content.emailInvite) formatField('Email Invite', String(content.emailInvite));
-        if (content.staffScript) formatField('Staff Script', String(content.staffScript));
+        // Event Marketing - handle multiline content properly
+        if (content.instagramShort) {
+          const igShort = String(content.instagramShort).replace(/[\u{1F300}-\u{1F9FF}]/gu, ''); // Remove emojis
+          formatField('Instagram (Short)', igShort);
+        }
+        if (content.instagramLong) {
+          const igLong = String(content.instagramLong)
+            .replace(/[\u{1F300}-\u{1F9FF}]/gu, '') // Remove emojis
+            .replace(/\n+/g, ' '); // Replace newlines with spaces for cleaner PDF
+          formatField('Instagram (Long)', igLong);
+        }
+        if (content.emailInvite) {
+          // Parse emailInvite which may contain "Subject: X" followed by body
+          const emailText = String(content.emailInvite);
+          const subjectMatch = emailText.match(/^Subject:\s*(.+?)(?:\n|$)/i);
+          if (subjectMatch) {
+            formatField('Email Subject', subjectMatch[1].trim());
+            const bodyText = emailText.replace(/^Subject:\s*.+?\n/i, '').trim().replace(/\n+/g, ' ');
+            formatField('Email Body', bodyText);
+          } else {
+            formatField('Email Invite', emailText.replace(/\n+/g, ' '));
+          }
+        }
+        if (content.staffScript) {
+          formatField('Staff Script', String(content.staffScript).replace(/\n+/g, ' '));
+        }
         
         // Numbers to Decisions
         if (content.mainInsight) formatField('Main Insight', String(content.mainInsight));
